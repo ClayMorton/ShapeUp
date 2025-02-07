@@ -8,7 +8,35 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject private var viewModel = GoalViewModel()
+    @State private var showingAddGoalView = false
+    
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            List {
+                ForEach(viewModel.goals) { goal in
+                    NavigationLink(destination: GoalDetailView(goal: goal)) {
+                        HStack {
+                            Image(systemName: goal.icon)
+                            Text(goal.name)
+                        }
+                    }
+                }
+                .onDelete(perform: viewModel.deleteGoal)
+            }
+            .navigationTitle("ShapeUp")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingAddGoalView = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingAddGoalView) {
+                AddGoalView(viewModel: viewModel)
+            }
+        }
     }
 }
