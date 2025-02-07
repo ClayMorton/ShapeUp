@@ -24,13 +24,13 @@ class GoalViewModel: ObservableObject {
         saveGoals()
     }
     
-    private func saveGoals() {
+    func saveGoals() {
         if let encoded = try? JSONEncoder().encode(goals) {
             UserDefaults.standard.set(encoded, forKey: "goals")
         }
     }
     
-    private func loadGoals() {
+    func loadGoals() {
         if let data = UserDefaults.standard.data(forKey: "goals") {
             if let decoded = try? JSONDecoder().decode([Goal].self, from: data) {
                 goals = decoded

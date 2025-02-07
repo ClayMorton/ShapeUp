@@ -15,10 +15,13 @@ struct MainView: View {
         NavigationView {
             List {
                 ForEach(viewModel.goals) { goal in
-                    NavigationLink(destination: GoalDetailView(goal: goal)) {
+                    NavigationLink(destination: GoalDetailView(goal: goal, viewModel: viewModel)) {
                         HStack {
                             Image(systemName: goal.icon)
                             Text(goal.name)
+                            Spacer()
+                            Image(systemName: goal.isCompleted ? "checkmark.circle.fill" : "circle")
+                                .foregroundColor(goal.isCompleted ? .green : .gray)
                         }
                     }
                 }

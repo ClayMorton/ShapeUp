@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GoalDetailView: View {
     var goal: Goal
+    @ObservedObject var viewModel: GoalViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -25,13 +26,17 @@ struct GoalDetailView: View {
             
             if let checklist = goal.checklist {
                 List {
-                    ForEach(checklist) { item in
+                    ForEach(checklist.indices, id: \.self) { index in
                         HStack {
-                            Text(item.title)
+                            Text(checklist[index].title)
                             Spacer()
-                            Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
+                            Image(systemName: checklist[index].isCompleted ? "checkmark.circle.fill" : "circle")
+                                .foregroundColor(checklist[index].isCompleted ? .green : .gray)
                                 .onTapGesture {
-                                    // Toggle completion
+                                    // Toggle checklist item completion
+                                    goal.checklist?[index].isCompleted.toggle()
+                                    goal.updateCompletionStatus()
+                                    viewModel.saveGoals() // Save changes
                                 }
                         }
                     }
