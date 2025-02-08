@@ -14,18 +14,17 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                
                 if viewModel.goals.isEmpty {
                     TutorialCardView()
                 } else {
                     // Swipeable goal cards
-                    TabView {
+                    ScrollView(.horizontal, showsIndicators: false) {
                         ForEach(viewModel.goals) { goal in
                             GoalCardView(goal: goal, viewModel: viewModel)
                                 .padding(.horizontal, 20)
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .scrollTargetBehavior(.paging)
                 }
             }
             .toolbar {
@@ -43,6 +42,7 @@ struct MainView: View {
             .background(
                 LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.green.opacity(0.1)]), startPoint: .top, endPoint: .bottom)
             )
+            .scaledToFill()
         }
     }
 }

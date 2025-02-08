@@ -28,18 +28,11 @@ struct AddGoalView: View {
                         Image(systemName: "star").tag("star")
                         Image(systemName: "heart").tag("heart")
                         Image(systemName: "flame").tag("flame")
+                        Image(systemName: "figure.walk").tag("figure.walk")
+                        Image(systemName: "dumbbell").tag("dumbbell")
+                        Image(systemName: "figure.core.training").tag("figure.core.training")
                     }
-                }
-                
-                Section(header: Text("Type")) {
-                    Toggle("Is Workout Goal", isOn: $isWorkoutGoal)
-                    
-                    if isWorkoutGoal {
-                        TextField("Reps", text: $reps)
-                            .keyboardType(.numberPad)
-                        TextField("Weight", text: $weight)
-                            .keyboardType(.decimalPad)
-                    }
+                    .scaledToFit()
                 }
                 
                 Section {
