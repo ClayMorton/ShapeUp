@@ -14,23 +14,29 @@ class GoalViewModel: ObservableObject {
         loadGoals()
     }
     
+    // Add a new goal
     func addGoal(_ goal: Goal) {
         goals.append(goal)
         saveGoals()
     }
     
-    func deleteGoal(at offsets: IndexSet) {
-        goals.remove(atOffsets: offsets)
-        saveGoals()
+    // Delete a specific goal
+    func deleteGoal(_ goal: Goal) {
+        if let index = goals.firstIndex(where: { $0.id == goal.id }) {
+            goals.remove(at: index)
+            saveGoals()
+        }
     }
     
-    func saveGoals() {
+    // Save goals to UserDefaults
+    func saveGoals() { // Removed `private` access level
         if let encoded = try? JSONEncoder().encode(goals) {
             UserDefaults.standard.set(encoded, forKey: "goals")
         }
     }
     
-    func loadGoals() {
+    // Load goals from UserDefaults
+    private func loadGoals() {
         if let data = UserDefaults.standard.data(forKey: "goals") {
             if let decoded = try? JSONDecoder().decode([Goal].self, from: data) {
                 goals = decoded

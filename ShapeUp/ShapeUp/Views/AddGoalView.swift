@@ -44,13 +44,8 @@ struct AddGoalView: View {
                 
                 Section {
                     Button("Save") {
-                        if isWorkoutGoal {
-                            let workoutGoal = WorkoutGoal(name: name, description: description, icon: icon, reps: Int(reps), weight: Double(weight))
-                            viewModel.addGoal(workoutGoal)
-                        } else {
-                            let goal = Goal(name: name, description: description, icon: icon)
-                            viewModel.addGoal(goal)
-                        }
+                        let goal = Goal(name: name, description: description, icon: icon)
+                        viewModel.addGoal(goal)
                         presentationMode.wrappedValue.dismiss()
                     }
                 }

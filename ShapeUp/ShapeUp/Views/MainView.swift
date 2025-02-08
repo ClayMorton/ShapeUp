@@ -13,21 +13,21 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.goals) { goal in
-                    NavigationLink(destination: GoalDetailView(goal: goal, viewModel: viewModel)) {
-                        HStack {
-                            Image(systemName: goal.icon)
-                            Text(goal.name)
-                            Spacer()
-                            Image(systemName: goal.isCompleted ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(goal.isCompleted ? .green : .gray)
+            ZStack {
+                
+                if viewModel.goals.isEmpty {
+                    TutorialCardView()
+                } else {
+                    // Swipeable goal cards
+                    TabView {
+                        ForEach(viewModel.goals) { goal in
+                            GoalCardView(goal: goal, viewModel: viewModel)
+                                .padding(.horizontal, 20)
                         }
                     }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
-                .onDelete(perform: viewModel.deleteGoal)
             }
-            .navigationTitle("ShapeUp")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -40,6 +40,9 @@ struct MainView: View {
             .sheet(isPresented: $showingAddGoalView) {
                 AddGoalView(viewModel: viewModel)
             }
+            .background(
+                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.green.opacity(0.1)]), startPoint: .top, endPoint: .bottom)
+            )
         }
     }
 }
