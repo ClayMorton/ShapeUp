@@ -13,20 +13,20 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                if viewModel.goals.isEmpty {
-                    TutorialCardView()
-                } else {
-                    // Swipeable goal cards
-                    ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack{
+                    if viewModel.goals.isEmpty {
+                        TutorialCardView()
+                    } else {
+                        // Swipeable goal cards
                         ForEach(viewModel.goals) { goal in
                             GoalCardView(goal: goal, viewModel: viewModel)
                                 .padding(.horizontal, 20)
                         }
                     }
-                    .scrollTargetBehavior(.paging)
                 }
             }
+            .scrollTargetBehavior(.paging)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
